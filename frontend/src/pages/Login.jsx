@@ -11,8 +11,8 @@ import { signInSuccess } from '../redux/userSlice';
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -22,9 +22,6 @@ const LoginPage = () => {
       password: password
     };
     handleUserSubmition(userData);
-    if(!email || !password) return toast.error("Wrong email or password.");
-    toast.success("Login successed");
-    return navigate("/");
   };
 
   const handleUserSubmition = async(userData) => {
