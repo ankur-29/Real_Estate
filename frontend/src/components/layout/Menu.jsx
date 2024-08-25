@@ -1,27 +1,42 @@
 import React, { useState } from 'react';
 import { IoIosMenu } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { MdLogout, MdSettings, MdSpaceDashboard } from "react-icons/md";
 import IconButton from '../ui/IconButton';
 import Searchbar from './Searchbar';
 import BasicButton from '../ui/BasicButton';
 import MenuButton from './MenuButton';
 import { USER_MENU_LINKS } from '../../utils/constants';
+import { logoutUserSuccess } from "../../redux/userSlice";
+import axios from "axios";
 
 const Menu = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {user} = useSelector(state => state.user);
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector(state => state.user);
   const theme = "dark";
   const [isOpen, setIsOpen] = useState(false);
   const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
-  
-  const handleLogout = () => {
-    // logOut();
-    // logout({ variables: { _id: user?._id } });
+
+  // const handleLogout = () => {
+  //   // logOut();
+  //   // logout({ variables: { _id: user?._id } });
+  //   closeAll();
+  //   console.log('Logout Called');
+  //   navigate("/");
+  // };
+
+  const handleLogout = async() => {
+    console.log("user loggedout from menu");
+    try {
+      const res = await axios.get('http://localhost:8080/user/logout');
+      dispatch(logoutUserSuccess(res));
+    } catch (err) {
+      console.log(err);
+    }
     closeAll();
-    console.log('Logout Called');
     navigate("/");
   };
 
@@ -48,15 +63,14 @@ const Menu = () => {
         Icon={IoIosMenu}
         className={
           theme === "dark" ||
-          location.pathname === "/"
+            location.pathname === "/"
             ? "text-white hover:opacity-70"
             : "text-primary hover:text-secondary"
         }
       />
       <div
-        className={`absolute w-screen sm:w-[360px] p-4 sm:right-0 -right-4 transition-all duration-500 bg-bgColor-soft sm:rounded-lg ${
-          isOpen ? "top-20" : "-top-[1000px]"
-        } `}
+        className={`absolute w-screen sm:w-[360px] p-4 sm:right-0 -right-4 transition-all duration-500 bg-bgColor-soft sm:rounded-lg ${isOpen ? "top-20" : "-top-[1000px]"
+          } `}
       >
         <Searchbar onWelcome={false} closeAll={closeAll} />
         <div className="pt-4 flex flex-col gap-2">
@@ -67,7 +81,7 @@ const Menu = () => {
           >
             New Listing
           </BasicButton>
-          {!user ? (
+          {!currentUser ? (
             <BasicButton
               onClick={() => handleNavigate("/login")}
               variant="outlined"
@@ -102,9 +116,8 @@ const Menu = () => {
                         <button
                           key={option}
                           onClick={() => handleClickTheme(option)}
-                          className={`flex gap-3 items-center text-xl hover:bg-borderColor py-2 px-4 rounded-lg w-full capitalize ${
-                            theme === option && "bg-borderColor"
-                          }`}
+                          className={`flex gap-3 items-center text-xl hover:bg-borderColor py-2 px-4 rounded-lg w-full capitalize ${theme === option && "bg-borderColor"
+                            }`}
                         >
                           {option}
                         </button>

@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 const Header = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const {user} = useSelector(state => state.user);
+    const {currentUser} = useSelector(state => state.user);
     const theme = "dark";
     const pathname = location.pathname;
     
@@ -27,7 +27,7 @@ const Header = () => {
                 </div>
                 <Menu />
                 <div className="md:flex hidden gap-2">
-                    {user ? (
+                    {currentUser ? (
                         <UserMenu />
                     ) : (
                         <BasicButton variant="outlined"
