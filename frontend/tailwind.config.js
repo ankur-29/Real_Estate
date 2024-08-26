@@ -23,6 +23,8 @@ export default {
       primary: "var(--primary)",
       secondary: "var(--secondary)",
       transparent: "transparent",
+      "primary-logo":"#4c1d95",
+      "secondary-logo":"#1d4ed8",
       white: "#fff",
       black: "#000",
     },

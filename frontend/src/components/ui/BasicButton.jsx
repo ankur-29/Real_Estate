@@ -20,7 +20,7 @@ const BasicButton = ({
           ${
             variant === "contained"
               ? `bg-primary text-white border border-primary`
-              : `border-2 border-primary bg-transparent hover:border-secondary disabled:text-primary disabled:bg-transparent disabled:hover:border-primary text-primary hover:text-primary focus:text-white`
+              : `border-2 border-primary bg-transparent hover:border-secondary disabled:text-primary disabled:bg-transparent disabled:hover:border-primary text-primary hover:text-white focus:text-white`
           } 
           ${radius === "small" ? "rounded-lg " : "rounded-2xl "} ` + className
       }
